@@ -81,23 +81,44 @@
 
         <form action="<?php $_SERVER['PHP_SELF'] ?>?a=pagamento" method="post">
             <input type="hidden" name="placa" value="<?php echo $placa?>">
-            <input type="number" step="0.1" name="pagamento">
-            <input type="submit" value="Receber">
+            <input type="number" step="0.05" name="pagamento">
+            <input type="checkbox" name="ticket" style="margin-right: 5px; margin-left: 5px;" value="cupom" id="inputTicket">Ticket<br>
+            <input type="submit" value="Receber" style="margin-top: 10px;">
         </form>
 
     <?php
 
         $pagamento = $_POST['pagamento'];
+        $ticket = $_POST['ticket'];
 
-        if(!empty($pagamento)){
+        if($ticket == 'cupom'){
+          if($partes[0] == '00'){
+            $pagamento = $pagamento - ($valor_hora_dia/60);
+          } else{
+            $pagamento = $pagamento - $valor_hora_dia;
+          }
+        }
+          
+          if(!empty($pagamento)){
           if($partes[0] == '00'){
             $troco = $pagamento - $valor_pagar;
             $troco = number_format($troco, 2, '.', '');
-            echo "<h5>Troco: R$" . $troco;
-          } else{
+            if($troco >= 0){
+              echo "<h5>Troco: R$" . $troco;
+            } else{
+              echo "<h5> Por conta da Casa! </h5>";
+            }
+          }
+
+           else{
             $troco = $pagamento - $valor_total;
             $troco = number_format($troco, 2, '.', '');
-            echo "<h5>Troco: R$" . $troco;
+            if($troco >= 0){
+              echo "<h5>Troco: R$" . $troco;
+            } else{
+              echo "<h5> Por conta da Casa! </h5>";
+            }
+            
           }
         }
 
