@@ -46,7 +46,7 @@
 
               $valor_hora_dia = number_format($row['carro_valor_dia'], 2, '.', '');
 
-                echo "<h5>Carro Id: " . $row['carro_id'] . "</h5>";
+                echo "<h5 style='margin-top: 5%;'>Carro Id: " . $row['carro_id'] . "</h5>";
                 echo "<h5>Modelo Carro: " . $row['carro_modelo'] . "</h5>";
                 echo "<h5>Placa Carro: " . $row['carro_placa'] . "</h5>";
                 echo "<h5>Horário Entrada: " . $row['carro_horario_entrada'] . "</h5>";
