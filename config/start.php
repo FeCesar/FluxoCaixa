@@ -9,6 +9,7 @@
         $conn->exec($sql);
         $sql = "create table if not exists configs(
             configs_id int primary key auto_increment,
+            configs_dia date,
             configs_valor float
         )";
         $conn->exec($sql);
@@ -20,7 +21,7 @@
             carro_dia_entrada date
         )";
         $conn->exec($sql);
-        
+        header('location: ../index.php');
     } catch (PDOException $e){
         echo $sql . "<br>" . $e->getMessage();
     }

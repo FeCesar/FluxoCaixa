@@ -17,6 +17,46 @@
   <body>
       
 
+    <main class="container">
+
+        <div class="box">
+            <form action="functions/guarda-valor-inicial.php" method="post">
+                <input type="number" placeholder="Valor do Caixa Inicial" name="valor" required />
+                <input type="submit" value="Definir Caixa">
+            </form>
+        </div>
+
+        <div class="box" style="float: right; margin-top: 2%;">
+            <?php 
+                
+                $data_atual = new DateTime();
+                $data = $data_atual->format("Y-m-d");
+
+                try{
+                    $conn = new PDO('mysql:host=localhost;dbname=estacionamentodb', 'root', '');
+                    $stmt = $conn->query("SELECT * FROM configs WHERE configs_dia = '$data'");
+                    $stmtRows = $conn->query("SELECT * FROM configs WHERE configs_dia = '$data'")->fetchAll();
+                    $count = count($stmtRows);
+
+                    if($count > 0){
+                        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                            echo "<h6>Caixa Atual: R$ " . $row['configs_valor'] . "</h6>";
+                        }
+                    } else{
+                        echo "<h6>Caixa Atual: Não Definido</h6>";
+                    }
+                    
+
+
+                } catch (PDOException $e){
+                    echo "Error: " . $e->getMessage();
+                }
+
+            ?>
+        </div>
+
+    </main>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
