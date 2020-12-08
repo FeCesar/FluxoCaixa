@@ -79,12 +79,14 @@
             <button type="submit" class="btn btn-primary">Confirmar</button>
         </form>
 
-        <form action="functions/" method="post">
+        <form action="screens/dados-carros.php" method="post">
         <h4 style="margin-bottom: 2%;">Formulário De Saida</h4>
             <label for="inputPlaca">Placa do Carro: </label>
             <input type="text" placeholder="Ex.: ABC1234" id="inputPlaca" name="placa">
             <input type="submit" value="Buscar">
         </form>
+        
+
 
     </main>
 

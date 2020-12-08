@@ -1,5 +1,6 @@
 <?php
 
+    date_default_timezone_set('America/Sao_Paulo');
     $valor_inicial = $_POST['valor'];
     $data = new DateTime();
     $data_formato = $data->format('Y/m/d');
