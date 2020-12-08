@@ -1,0 +1,12 @@
+table{
+    width: 100%;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 4%;
+}
+tr{
+    border: 1px black solid;
+}
+td{
+    border: 1px black solid;
+}

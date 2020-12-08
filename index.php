@@ -86,7 +86,12 @@
             <input type="submit" value="Buscar">
         </form>
         
-
+        <form action="screens/lista-dados.php" method="post">
+        <h4 style="margin-bottom: 2%;">Lista de Dados</h4>
+            <label for="inputData">Selecione a Data: </label>
+            <input type="date" name="data" id="inputData">
+            <input type="submit" value="Buscar">
+        </form>
 
     </main>
 
