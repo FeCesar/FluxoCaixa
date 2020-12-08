@@ -17,43 +17,74 @@
   <body>
       
 
+    <header class="container-fluid">
+
+        <div class="container">
+            <div class="box">
+                <form action="functions/guarda-valor-inicial.php" method="post">
+                    <input type="number" placeholder="Valor do Caixa Inicial" name="valor" required />
+                    <input type="submit" value="Definir Caixa">
+                </form>
+            </div>
+
+            <div class="box" style="float: right; margin-top: 2%;">
+                <?php 
+                    
+                    $data_atual = new DateTime();
+                    $data = $data_atual->format("Y-m-d");
+
+                    try{
+                        $conn = new PDO('mysql:host=localhost;dbname=estacionamentodb', 'root', '');
+                        $stmt = $conn->query("SELECT * FROM configs WHERE configs_dia = '$data'");
+                        $stmtRows = $conn->query("SELECT * FROM configs WHERE configs_dia = '$data'")->fetchAll();
+                        $count = count($stmtRows);
+
+                        if($count > 0){
+                            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                                echo "<h6>Caixa Atual: R$ " . $row['configs_valor'] . "</h6>";
+                            }
+                        } else{
+                            echo "<h6>Caixa Atual: Não Definido</h6>";
+                        }
+                        
+
+
+                    } catch (PDOException $e){
+                        echo "Error: " . $e->getMessage();
+                    }
+
+                ?>
+            </div>
+        </div>
+    </header>
+
     <main class="container">
 
-        <div class="box">
-            <form action="functions/guarda-valor-inicial.php" method="post">
-                <input type="number" placeholder="Valor do Caixa Inicial" name="valor" required />
-                <input type="submit" value="Definir Caixa">
-            </form>
-        </div>
+        <form action="functions/entrada-cliente.php" method="post">
+        <h4>Formulário De Entrada</h4>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Carro</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Ex.: Pálio" name="carro">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Placa</label>
+                    <input type="text" class="form-control" id="inputPassword4" placeholder="Ex.: ABC1234" name="placa" maxlength="7">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputPassword4">Valor/Hora</label>
+                    <input type="number" class="form-control" id="inputPassword4" placeholder="Ex.: 14" name="valor">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirmar</button>
+        </form>
 
-        <div class="box" style="float: right; margin-top: 2%;">
-            <?php 
-                
-                $data_atual = new DateTime();
-                $data = $data_atual->format("Y-m-d");
-
-                try{
-                    $conn = new PDO('mysql:host=localhost;dbname=estacionamentodb', 'root', '');
-                    $stmt = $conn->query("SELECT * FROM configs WHERE configs_dia = '$data'");
-                    $stmtRows = $conn->query("SELECT * FROM configs WHERE configs_dia = '$data'")->fetchAll();
-                    $count = count($stmtRows);
-
-                    if($count > 0){
-                        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                            echo "<h6>Caixa Atual: R$ " . $row['configs_valor'] . "</h6>";
-                        }
-                    } else{
-                        echo "<h6>Caixa Atual: Não Definido</h6>";
-                    }
-                    
-
-
-                } catch (PDOException $e){
-                    echo "Error: " . $e->getMessage();
-                }
-
-            ?>
-        </div>
+        <form action="functions/" method="post">
+        <h4 style="margin-bottom: 2%;">Formulário De Saida</h4>
+            <label for="inputPlaca">Placa do Carro: </label>
+            <input type="text" placeholder="Ex.: ABC1234" id="inputPlaca" name="placa">
+            <input type="submit" value="Buscar">
+        </form>
 
     </main>
 

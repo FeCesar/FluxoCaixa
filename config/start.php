@@ -18,6 +18,8 @@
             carro_placa varchar(7),
             carro_horario_entrada time,
             carro_horario_saida time,
+            carro_modelo varchar(55),
+            carro_valor_dia float,
             carro_dia_entrada date
         )";
         $conn->exec($sql);
