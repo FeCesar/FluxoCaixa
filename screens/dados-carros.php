@@ -1,3 +1,7 @@
+<?php
+  error_reporting(0);
+  ini_set(“display_errors”, 0 );
+?>
 <!doctype html>
 <html lang="pt_br">
   <head>
@@ -20,8 +24,16 @@
 
             $conn = new PDO('mysql:host=localhost;dbname=estacionamentodb', 'root', '');
             $stmt = $conn->query("SELECT * FROM carros WHERE carro_placa = '$placa'");
+            $stmt2 = $conn->query("SELECT * FROM carros WHERE carro_placa = '$placa'")->fetchAll();
+            $count = count($stmt2);
+
+            if($count < 1){
+              header("Location: ../index.php");
+            }
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+              $id_carro = $row['carro_id'];
 
               $horario_inicio = $row['carro_horario_entrada'];
               $horario_saida = date('H:i:s');
@@ -32,12 +44,14 @@
               $intervalo = $horario_inicio->diff($horario_saida);
               $permanencia = $intervalo->format('%H:%I:%S');
 
+              $valor_hora_dia = number_format($row['carro_valor_dia'], 2, '.', '');
+
                 echo "<h5>Carro Id: " . $row['carro_id'] . "</h5>";
                 echo "<h5>Modelo Carro: " . $row['carro_modelo'] . "</h5>";
                 echo "<h5>Placa Carro: " . $row['carro_placa'] . "</h5>";
                 echo "<h5>Horário Entrada: " . $row['carro_horario_entrada'] . "</h5>";
                 echo "<h5>Dia Entrada: " . $row['carro_dia_entrada'] . "</h5>";
-                echo "<h5>Valor/Hora: R$ " . $row['carro_valor_dia'] . "</h5>";
+                echo "<h5>Valor/Hora: R$" . $valor_hora_dia . "</h5>";
                 echo "<br>";
                 echo "<h5>Tempo Presente no Estacionamento: " . $permanencia . "</h5>";
                 
@@ -55,6 +69,7 @@
                   $valor_total = number_format($valor_total, 2, '.', '');
                   echo "<h5>Valor A Pagar: R$" . $valor_total . "</h5>";
                 }
+                echo "<br>";
 
             }
 
@@ -63,6 +78,40 @@
         }
 
     ?>
+
+        <form action="<?php $_SERVER['PHP_SELF'] ?>?a=pagamento" method="post">
+            <input type="hidden" name="placa" value="<?php echo $placa?>">
+            <input type="number" step="0.1" name="pagamento">
+            <input type="submit" value="Receber">
+        </form>
+
+    <?php
+
+        $pagamento = $_POST['pagamento'];
+
+        if(!empty($pagamento)){
+          if($partes[0] == '00'){
+            $troco = $pagamento - $valor_pagar;
+            $troco = number_format($troco, 2, '.', '');
+            echo "<h5>Troco: R$" . $troco;
+          } else{
+            $troco = $pagamento - $valor_total;
+            $troco = number_format($troco, 2, '.', '');
+            echo "<h5>Troco: R$" . $troco;
+          }
+        }
+
+    ?>
+
+    <form action="../functions/saida-cliente.php" method="post">
+        <input type="hidden" step="0.1" name="entrada" value="<?php echo $pagamento; ?>">
+        <input type="hidden" step="0.1" name="saida" value="<?php echo $troco ?>">
+        <input type="hidden" name="id" value="<?php echo $id_carro; ?>">
+        <br>
+        <input type="submit" value="Confirmar">
+
+    </form>
+
     </main>
 
     <!-- Optional JavaScript -->

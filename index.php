@@ -73,7 +73,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputPassword4">Valor/Hora</label>
-                    <input type="number" class="form-control" id="inputPassword4" placeholder="Ex.: 14" name="valor">
+                    <input type="number" step="0.1" class="form-control" id="inputPassword4" placeholder="Ex.: 14" name="valor">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Confirmar</button>
@@ -82,7 +82,7 @@
         <form action="screens/dados-carros.php" method="post">
         <h4 style="margin-bottom: 2%;">Formulário De Saida</h4>
             <label for="inputPlaca">Placa do Carro: </label>
-            <input type="text" placeholder="Ex.: ABC1234" id="inputPlaca" name="placa">
+            <input type="text" placeholder="Ex.: ABC1234" id="inputPlaca" maxlength="7" name="placa">
             <input type="submit" value="Buscar">
         </form>
         
